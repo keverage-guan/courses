@@ -1,0 +1,5 @@
+num_courses: 6
+must_haves: ['MAT', 'PHI385', 'CHI', 'WRI']
+at_least: [{'Courses': ['PSY', 'ECO', 'COS', 'CWR', 'SPI'], 'Number': 2}]
+at_most: [{'Courses': ['CHI', 'SPA', 'FRE', 'RUS', 'JPN', 'KOR', 'PLS', 'ASL'], 'Number': 1}, {'Courses': ['ECO', 'COS'], 'Number': 1}]
+day_limits: {}
