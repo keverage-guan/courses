@@ -1,0 +1,9 @@
+num_courses: 6
+must_haves: ['MAT', 'ECE']
+at_least: []
+must_select: []
+at_most: [{'Courses': ['MAT'], 'Number': 1}, {'Courses': ['AMS', 'ATL', 'MPP'], 'Number': 1}, {'Courses': ['ORF', 'ECO', 'APC'], 'Number': 1}]
+exclude: ['ENG']
+uniqueDeps: True
+day_limits: {'Monday': 3, 'Tuesday': 4, 'Wednesday': 4, 'Thursday': 4, 'Friday': 3}
+time_limits: [('7:00 AM', '9:30 AM')]
