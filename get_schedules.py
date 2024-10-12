@@ -92,6 +92,8 @@ class CourseInfoScraper:
         return [course, topic, section_info]
 
     def __format_classes_df(self, classes_df):
+        if classes_df.empty:
+            return None
         # split schedule column of classes_df into two by the first space and split times
         classes_df[['Day', 'Time']] = classes_df['Schedule'].str.split(' ', n=1, expand=True)
         classes_df = classes_df.drop(columns=['Schedule'])
@@ -122,14 +124,25 @@ class CourseInfoScraper:
     def scrape_course_info(self):
         schedule_info = {}
 
+        existing_courses = []
+
+        # get a list of each department and course concatenated from schedules_df indexwise
+        for index, row in self.schedules_df.iterrows():
+            existing_courses.append(f'{row["Department"]}{row["Course"]}')
+
         for index, row in self.classes_df.iterrows():
             course = row['Course']
+            dep = row['Department']
+
+            # if course is type int or consists of digits 
+            if isinstance(course, int) or re.match(r'\d+', str(course)):
+                course = f'{dep}{course}'
 
             print(course)
 
-            if (course[-3:] in self.schedules_df['Course'].values and course[:3] in self.schedules_df['Department'].values) or course in self.schedules_df['Name'].values:
+            if (course in existing_courses) or course in self.schedules_df['Name'].values:
                 continue
-
+                    
             result = self.__scrape_course(course)
             if result is not None:
                 schedule_info[f'{result[0]}'] = [result[1], result[2]]
@@ -153,7 +166,8 @@ class CourseInfoScraper:
 
         new_classes_df = self.__format_classes_df(new_classes_df)
 
-        self.schedules_df = pd.concat([self.schedules_df, new_classes_df], ignore_index=True)
+        if new_classes_df:
+            self.schedules_df = pd.concat([self.schedules_df, new_classes_df], ignore_index=True)
 
     def save_schedules_df(self, filename='schedules.xlsx'):
         self.schedules_df.to_excel(filename, index=False)

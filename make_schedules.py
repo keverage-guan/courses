@@ -7,6 +7,8 @@ import seaborn as sns
 import os
 import datetime
 
+pd.options.mode.chained_assignment = None
+
 class ScheduleMaker:
     def __init__(self, schedules, num_courses=6, must_haves=[], at_least=[], must_select=[], at_most=[], exclude=[], unique_deps=True, day_limits=dict(), time_limits=[]):
         if isinstance(schedules, str):
