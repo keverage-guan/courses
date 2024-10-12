@@ -192,8 +192,12 @@ class ScheduleMaker:
 
     def __draw_schedule(self, schedule, filepath):
         # Convert start and end times to datetime objects
-        schedule['Start'] = pd.to_datetime(schedule['Start'])
-        schedule['End'] = pd.to_datetime(schedule['End'])
+        # schedule['Start'] = pd.to_datetime(schedule['Start'])
+        # schedule['End'] = pd.to_datetime(schedule['End'])
+
+        #specify format 
+        schedule['Start'] = pd.to_datetime(schedule['Start'], format='%H:%M:%S')
+        schedule['End'] = pd.to_datetime(schedule['End'], format='%H:%M:%S')
 
         # generate a list of pastel colors
         classes = [x[:-1] for x in list(schedule['Key'].unique())]
